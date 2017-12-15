@@ -1,7 +1,10 @@
 const path = require('path')
 const HTMLPlugin = require('html-webpack-plugin')
 
-module.exports = {
+
+const isDev = process.env.NODE_ENV === 'development'
+
+const config = {
 	entry: {
 		app: path.join(__dirname, '../client/app.js')
 	},
@@ -30,3 +33,24 @@ module.exports = {
 		})
 	]
 }
+
+// dev启动删除本地的dist目录，因为缓存中没有文件， 默认会访问本地的dist目录
+if (isDev) {
+	config.devServer = {
+		host: '0.0.0.0',
+		port: '8888',
+		contentBase: path.join(__dirname, '../dist'),
+		// hot: true,
+		// 显示错误信息
+		overlay: {
+			errors: true
+		},
+		publicPath: '/public',
+		// 404返回地址
+		historyApiFallback: {
+			index: '/public/index.html'
+		}
+	}
+}
+
+module.exports = config
