@@ -7,5 +7,13 @@ module.exports = {
 		filename: '[name]-[hash].js',
 		path: path.join(__dirname, '../dist'),
 		publicPath: '/public'
+	},
+	module: {
+		rules: [
+			{
+				test: /.jsx$/,
+				loader: 'babel-loader'
+			}
+		]
 	}
 }
